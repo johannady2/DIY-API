@@ -30,6 +30,7 @@ app.get("/jokes/:id", (req, res) =>
   const id = parseInt(req.params.id, 10); // convert from string → number
 
   // Validate the index
+  //NOTE: In solution.js, Angela used the find() function.
   if (isNaN(id) || id < 0 || id >= jokes.length)//“If the ID is not a valid number, or it’s outside the range of the jokes array, return a 404 error.”
   {
     return res.status(404).json({ error: "Joke not found" });
@@ -40,7 +41,39 @@ app.get("/jokes/:id", (req, res) =>
 
 
 
-//3. GET a jokes by filtering on the joke type
+//3. GET a jokes by filtering on the joke type /filter?type=Puns
+
+app.get("/filter", (req, res) => {
+  const enteredType = req.query.type; // reads ?type=pun
+
+  if (!enteredType) {
+    return res.status(400).json({ error: "Please provide a type query parameter" });
+  }
+
+  // Return all jokes that match the type
+  const filteredJokes = jokes.filter(joke => joke.jokeType === enteredType);
+    /*filter pushes stuff that return true to new array without modifying the original array.
+    it kinda works like this
+
+    for (let i = 0; i < jokes.length; i++) {
+    const joke = jokes[i];
+
+    if (joke.type === enteredType) {
+      // This joke matches the filter
+      filteredJokes.push(joke);
+    }
+  }
+
+*/
+
+  if (filteredJokes.length === 0) {
+    return res.status(404).json({ error: "No jokes found for that type" });
+  }
+
+  res.json(filteredJokes);
+});
+
+
 
 //4. POST a new joke
 
