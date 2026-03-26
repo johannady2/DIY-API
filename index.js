@@ -25,6 +25,20 @@ console.log(jokes[randomIndex]);
 
 //2. GET a specific joke
 
+app.get("/jokes/:id", (req, res) =>
+{
+  const id = parseInt(req.params.id, 10); // convert from string → number
+
+  // Validate the index
+  if (isNaN(id) || id < 0 || id >= jokes.length)//“If the ID is not a valid number, or it’s outside the range of the jokes array, return a 404 error.”
+  {
+    return res.status(404).json({ error: "Joke not found" });
+  }
+
+  res.json(jokes[id]);
+});
+
+
 
 //3. GET a jokes by filtering on the joke type
 
