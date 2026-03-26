@@ -1,15 +1,30 @@
 import express from "express";
 import bodyParser from "body-parser";
 
+
 const app = express();
 const port = 3000;
 const masterKey = "4VGP2DN-6EWM4SJ-N6FGRHV-Z3PR3TT";
+//const API_URL = "http://localhost:3000";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+
+
+
+
 //1. GET a random joke
+app.get("/random", (req,res)=>
+{
+
+const randomIndex = Math.floor(Math.random() * jokes.length);
+console.log(jokes[randomIndex]);
+  res.json(jokes[randomIndex]);
+});
 
 //2. GET a specific joke
+
 
 //3. GET a jokes by filtering on the joke type
 
@@ -27,7 +42,7 @@ app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
 });
 
-var jokes = [
+let jokes = [
   {
     id: 1,
     jokeText:
