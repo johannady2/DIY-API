@@ -130,6 +130,33 @@ app.put("/jokes/:id", (req, res) =>
 
 
 //6. PATCH a joke
+app.patch("/jokes/:id", (req, res) => 
+{
+  const jokeToPatch = parseInt(req.params.id, 10);
+
+  // Find the index of the joke with that ID
+  const index = jokes.findIndex(j => j.id === jokeToPatch);
+
+  if (index !== -1)
+  {
+    // Only update the fields that were actually sent
+    if (req.body.text) {
+      jokes[index].jokeText = req.body.text;
+    }
+
+    if (req.body.type) {
+      jokes[index].jokeType = req.body.type;
+    }
+
+    res.json(jokes[index]);
+  }
+  else
+  {
+    res.send("id does not exist");
+  }
+});
+
+
 
 //7. DELETE Specific joke
 
