@@ -28,6 +28,9 @@ app.get("/jokes/:id", (req, res) =>
 {
   const id = parseInt(req.params.id, 10); // convert from string → number
 
+  // Find the index of the joke with that ID
+  const index = jokes.findIndex(j => j.id === id);
+
   // Validate the index
   //NOTE: In solution.js, Angela used the find() function.
   if (isNaN(id) || id < 0 || id >= jokes.length)//“If the ID is not a valid number, or it’s outside the range of the jokes array, return a 404 error.”
@@ -35,7 +38,7 @@ app.get("/jokes/:id", (req, res) =>
     return res.status(404).json({ error: "Joke not found" });
   }
 
-  res.json(jokes[id]);
+  res.json(jokes[index]);
 });
 
 
@@ -98,6 +101,33 @@ app.post("/jokes", (req, res) => {
 
 
 //5. PUT a joke
+app.put("/jokes/:id", (req, res) =>
+{
+  const jokeToEdit = parseInt(req.params.id, 10);
+
+  // Find the index of the joke with that ID
+  const index = jokes.findIndex(j => j.id === jokeToEdit);
+
+  if (index !== -1)
+  {
+    const editData = {
+      id: jokeToEdit,
+      jokeText: req.body.text,
+      jokeType: req.body.type
+    };
+
+    // Replace the existing joke
+    jokes[index] = editData;
+
+    res.json(editData);
+  }
+  else
+  {
+    res.send("id does not exist");
+  }
+});
+
+
 
 //6. PATCH a joke
 
