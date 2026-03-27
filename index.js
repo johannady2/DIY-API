@@ -77,23 +77,19 @@ app.get("/filter", (req, res) => {
 //4. POST a new joke
 
 app.post("/jokes", (req, res) => {
-  console.log("Before push:", jokes.length);
 
-  const enteredText = req.body.text;
-  const enteredType = req.body.type;
-  const jokesArrayLength = jokes.length;
-  const lastJokeID = jokes[jokesArrayLength - 1].id;
+  const lastJokeID = jokes[jokes.length - 1].id;
   const newJokeId = lastJokeID + 1;
 
   const newJokeData = {
     id: newJokeId,
-    jokeText: enteredText,
-    jokeType: enteredType
+    jokeText: req.body.text,
+    jokeType: req.body.type
   };
 
   jokes.push(newJokeData);
 
-  console.log("array length after push:", jokes.length);
+
   console.log(jokes[jokes.length - 1]);
 
   res.json(newJokeData);
