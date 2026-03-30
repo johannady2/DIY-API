@@ -159,6 +159,32 @@ app.patch("/jokes/:id", (req, res) =>
 
 
 //7. DELETE Specific joke
+app.delete("/jokes/:id", (req, res) => 
+{
+  const jokeToDelete = parseInt(req.params.id, 10);
+
+  // Find the index of the joke with that ID
+  const index = jokes.findIndex(j => j.id === jokeToDelete);
+
+  if (index !== -1)
+  {
+
+    jokes.splice(index, 1); // remove 1 item at that index
+
+
+
+    //res.send("okay");
+    res.sendStatus(200);//200 is the default status code for a successful response, so you can also just use res.sendStatus(200) without sending any additional data.
+  }
+  else
+  {
+   // res.send("id does not exist");
+    res.status(404).json({ error: `Joke ${jokeToDelete} not found` });
+  }
+});
+
+
+
 
 //8. DELETE All jokes
 
