@@ -20,6 +20,7 @@ app.get("/random", (req,res)=>
 const randomIndex = Math.floor(Math.random() * jokes.length);
 console.log(jokes[randomIndex]);
   res.json(jokes[randomIndex]);
+
 });
 
 //2. GET a specific joke
@@ -79,9 +80,15 @@ app.get("/filter", (req, res) => {
 
 //4. POST a new joke
 
-app.post("/jokes", (req, res) => {
+app.post("/jokes", (req, res) =>
+{
+  const lastJokeID = 0;
+  if(jokes.length !==0)
+  {
+    lastJokeID = jokes[jokes.length - 1].id;
+  }
 
-  const lastJokeID = jokes[jokes.length - 1].id;
+ 
   const newJokeId = lastJokeID + 1;
 
   const newJokeData = {
